@@ -19,11 +19,11 @@
           <el-upload
             class="upload-demo"
             ref=“upload”
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action="api/ftp/upload-file"
             :on-preview="handlePreview"
             :on-success="uploadeSuccess"
             :show-file-list="false"
-            :data="{'module_id':module_id}"
+            :data="{'moduleId':moduleId}"
             :headers="{'X-Token':accessToken}"
             multiple>
             <el-button class="uploadBtn" size="small" type="primary">点击上传</el-button>
@@ -74,8 +74,7 @@ export default {
   data() {
     return{
         value: '1',
-        module_id: '1',
-        accessToken:'',
+        moduleId: '1',
         filelist: '',
     }
   },
@@ -84,8 +83,13 @@ export default {
     console.log(this.$store.state)
     console.log(this.USER_INFO)
   },
+  computed:{
+    accessToken(){
+      return sessionStorage.getItem('djwjsc_token');
+    }
+  },
   mounted(){
-    this.getfilelistData()
+    // this.getfilelistData()
   },
   methods: {
     ...mapMutations([
@@ -93,7 +97,7 @@ export default {
     ]),
     changeOption(res){
       console.log(res)
-      this.module_id = res;
+      this.moduleId = res;
     },
       handlePreview(file) {
         this.$refs.upload.clearFiles()
@@ -101,7 +105,7 @@ export default {
       uploadeSuccess(response, file, fileList){
         this.filelist = file.name;
         // bus.$emit('refresh','更新数据')
-        // this.$emit('changefileList')
+        this.$emit('changefileList')
         console.log(this.refreshFilelist)
         // this.$emit(changefileList)
         // this.getfilelistData()

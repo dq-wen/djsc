@@ -26,12 +26,17 @@ export default {
         refreshFilelist:'index1',//把这个值传过去就知道上传成功后更新哪个模块的列表了
     }
   },
+  computed:{
+    userId(){
+      return sessionStorage.getItem('dj_userId')
+    }
+  },
   created() {
     console.log(this.$store.state)
     console.log(this.USER_INFO)
   },
   mounted(){
-    // this.getfilelistData()
+    this.getfilelistData()
     bus.$on('refresh',function(data){
       console.log(data)
     })
@@ -50,10 +55,12 @@ export default {
     },
       //获取上传列表数据
       getfilelistData(){
-        console.log(123)
-        // getfilelist().then(res => {
-        //   console.log(res)
-        // })
+        let params = {
+          userId:this.userId
+        }
+        getfilelist(params).then(res => {
+          console.log(res)
+        })
       }
   }
 }

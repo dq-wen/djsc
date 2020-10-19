@@ -9,15 +9,15 @@
           <i class="el-icon-arrow-down" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/index">
+          <!-- <router-link to="/index">
             <el-dropdown-item>
               首页
             </el-dropdown-item>
-          </router-link>
+          </router-link> -->
           <!-- <el-dropdown-item>
             设置
           </el-dropdown-item> -->
-          <el-dropdown-item divided>
+          <el-dropdown-item>
             <span style="display:block;" @click="logout">退出登录</span>
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -29,6 +29,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import Hamburger from '@/components/Hamburger'
+import axios from '@/axios'
 
 export default {
   components: {
@@ -38,15 +39,30 @@ export default {
     ...mapGetters([
       'sidebar',
       'avatar'
-    ])
+    ]),
+
+    xtoken(){
+      return sessionStorage.getItem('djwjsc_token');
+    }
   },
   methods: {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
-    async logout() {
-      await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+
+    logout() {
+      axios.post('/api/user/logout',{'X-Token':this.xtoken}).then(res=>{
+        const data = res.data;
+        if(data.code == 200){
+          this.$message.success('退出登录成功');
+          sessionStorage.clear();
+          this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+        }
+      })
+      // this.$message.success('退出登录成功');
+      // sessionStorage.clear();
+      // // await this.$store.dispatch('user/logout')
+      // this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
   }
 }

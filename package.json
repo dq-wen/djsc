@@ -7,7 +7,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "serve:test": "vue-cli-service serve --mode test",
-    "build:prod": "vue-cli-service build",
+    "build": "vue-cli-service build",
     "build:test": "vue-cli-service build --mode test",
     "preview": "node build/index.js --preview",
     "lint": "eslint --ext .js,.vue src",

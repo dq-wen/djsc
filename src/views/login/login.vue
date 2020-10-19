@@ -57,8 +57,8 @@ export default {
   data() {
     return {
       loginForm: {
-        username: 'admin',
-        password: 'admin'
+        username: 'ggaq_user',
+        password: 'ggaq_user@123'
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur' }],
@@ -91,13 +91,19 @@ export default {
     userLogin(){
       login(this.loginForm).then(res => {
         console.log('userLogin:',res)
+        const data = res.data;
+        if(data.code == 200){
+          sessionStorage.setItem('isLogin',true);
+          sessionStorage.setItem('djwjsc_token',data.data.token);
+          sessionStorage.setItem('dj_userId',data.data.userId);
+          this.$router.push({ path: this.redirect || '/' });
+        }
       })
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.loading = true
-          sessionStorage.setItem('isLogin', true)
+          this.loading = true;
           this.userLogin()
           // this.$router.push({ path: this.redirect || '/' })
         } else {

@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-import Layout from '@/layout'
+// import Layout from '@/layout'
 
 export const constantRoutes = [
   {
@@ -12,34 +12,29 @@ export const constantRoutes = [
     hidden: true
   },
 
-  {
-    path: '/404',
-    component: () => import('@/views/404'),
-    hidden: true
-  },
+  // {
+  //   path: '/',
+  //   component: Layout,
+  //   redirect: '/index',
+  //   children: [{
+  //     path: 'index',
+  //     name: 'index',
+  //     component: () => import('@/views/index/index'),
+  //     meta: { title: '首页', icon: 'example' }
+  //   }]
+  // },
+  // {
+  //   path: '/',
+  //   component: Layout,
+  //   redirect: '/index2',
+  //   children: [{
+  //     path: 'index2',
+  //     name: 'index2',
+  //     component: () => import('@/views/index2/index'),
+  //     meta: { title: '首页2', icon: 'example' }
+  //   }]
+  // },
 
-  {
-    path: '/',
-    component: Layout,
-    redirect: '/index',
-    children: [{
-      path: 'index',
-      name: 'index',
-      component: () => import('@/views/index/index'),
-      meta: { title: '首页', icon: 'example' }
-    }]
-  },
-  {
-    path: '/',
-    component: Layout,
-    redirect: '/index2',
-    children: [{
-      path: 'index2',
-      name: 'index2',
-      component: () => import('@/views/index2/index'),
-      meta: { title: '首页2', icon: 'example' }
-    }]
-  },
 
   // 监管指标管理
   // {
@@ -64,7 +59,7 @@ export const constantRoutes = [
   //   ]
   // },
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+ 
 ]
 
 const createRouter = () => new Router({

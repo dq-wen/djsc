@@ -12,7 +12,7 @@
         :collapse-transition="false"
         mode="vertical"
       >
-        <sidebar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path" />
+        <sidebar-item v-for="route in routes" :key="route.redirect" :item="route" :base-path="route.path" />
       </el-menu>
     </el-scrollbar>
   </div>
@@ -31,6 +31,7 @@ export default {
       'sidebar'
     ]),
     routes() {
+      console.log('999',this.$router.options.routes)
       return this.$router.options.routes
     },
     activeMenu() {

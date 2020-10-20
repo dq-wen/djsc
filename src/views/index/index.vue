@@ -6,7 +6,7 @@
 
 <script>
 import { mapMutations } from 'vuex'
-import { getfilelist } from './api'
+import { getfilelist , moduleList} from './api'
 import { bus } from '@/components/Bus/bus.js'
 export default {
   data() {
@@ -36,7 +36,7 @@ export default {
     console.log(this.USER_INFO)
   },
   mounted(){
-    this.getfilelistData()
+    this.getListData()
     bus.$on('refresh',function(data){
       console.log(data)
     })
@@ -53,15 +53,22 @@ export default {
           address: '广州市天河区吉山幼儿园'
         }]
     },
-      //获取上传列表数据
-      getfilelistData(){
-        let params = {
-          userId:this.userId
-        }
-        getfilelist(params).then(res => {
-          console.log(res)
-        })
+
+    getListData(){
+      let params = {
+        userId:this.userId
       }
+
+      //获取所属模块
+      moduleList(params).then(res=>{
+        console.log(res)
+      })
+
+      //获取上传列表
+      getfilelist(params).then(res => {
+        console.log(res)
+      })
+    },
   }
 }
 </script>

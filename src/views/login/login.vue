@@ -43,7 +43,6 @@
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
 
-
     </el-form>
   </div>
 </template>
@@ -51,7 +50,9 @@
 <script>
 // import { validUsername } from '@/utils/validate'
 import { login } from './api'
-
+import  routerIndex  from '@/router/index';
+import  routerJs from '@/router/router';
+import Layout from '@/layout'
 export default {
   name: 'Login',
   data() {
@@ -90,12 +91,54 @@ export default {
     },
     userLogin(){
       login(this.loginForm).then(res => {
-        console.log('userLogin:',res)
         const data = res.data;
         if(data.code == 200){
+          // const routerArr = [
+          //   {
+          //     path: '/',
+          //     component: Layout,
+          //     redirect: '/index',
+          //     children: [{
+          //       path: 'index',
+          //       name: 'index',
+          //       component: () => import('@/views/index/index'),
+          //       meta: { title: '首页', icon: 'example' }
+          //     }]
+          //   },
+
+          //    {
+          //     path: '/404',
+          //     component: () => import('@/views/404'),
+          //   },
+          //   { path: '*', redirect: '/404', hidden: true }
+          // ]
+
           sessionStorage.setItem('isLogin',true);
           sessionStorage.setItem('djwjsc_token',data.data.token);
           sessionStorage.setItem('dj_userId',data.data.userId);
+          
+          const getRouterJs = routerJs.filter(item=>item.meta.id==data.data.userId);
+
+          const routerArr = getRouterJs.map(item=>{
+            return {
+              path:'/',
+              component:Layout,
+              redirect:item.path,
+              children:[item]
+            }
+          })
+
+          const obj404 = {
+            path:'/*',
+            component: () => import('@/views/404'),
+            hidden:true
+          }
+          routerArr.push(obj404)
+          sessionStorage.setItem('dj_meanList',JSON.stringify(routerArr))
+
+          this.$router.options.routes = routerArr;
+          routerIndex.addRoutes(routerArr)
+          
           this.$router.push({ path: this.redirect || '/' });
         }
       })

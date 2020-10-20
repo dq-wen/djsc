@@ -14,7 +14,7 @@ router.beforeEach(async(to, from, next) => {
   if (whiteList.includes(to.path)) {
     next()
   } else {
-    if (!sessionStorage.getItem('isLogin')) {
+    if (!sessionStorage.getItem('isLogin') || !sessionStorage.getItem('djwjsc_token')) {
       next('/login')
     } else {
       next()

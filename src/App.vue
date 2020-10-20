@@ -5,7 +5,11 @@
 </template>
 
 <script>
+import utils from '@/utils/utils'
 export default {
-  name: 'App'
+  name: 'App',
+  mounted() {
+    utils.initRouter(this);
+  },
 }
 </script>

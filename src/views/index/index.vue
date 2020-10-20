@@ -47,13 +47,7 @@ export default {
     ]),
     changefileList(){
       console.log('更新数据index1')
-      this.filelist=[{
-          date: '2018-08-15',
-          name: '嘉盛',
-          address: '广州市天河区吉山幼儿园'
-        }]
     },
-
     getListData(){
       let params = {
         userId:this.userId
@@ -68,7 +62,7 @@ export default {
       getfilelist(params).then(res => {
         console.log(res)
       })
-    },
+    }
   }
 }
 </script>

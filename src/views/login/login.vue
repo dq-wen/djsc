@@ -94,25 +94,6 @@ export default {
       login(this.loginForm).then(res => {
         const data = res.data;
         if(data.code == 200){
-          // const routerArr = [
-          //   {
-          //     path: '/',
-          //     component: Layout,
-          //     redirect: '/index',
-          //     children: [{
-          //       path: 'index',
-          //       name: 'index',
-          //       component: () => import('@/views/index/index'),
-          //       meta: { title: '首页', icon: 'example' }
-          //     }]
-          //   },
-
-          //    {
-          //     path: '/404',
-          //     component: () => import('@/views/404'),
-          //   },
-          //   { path: '*', redirect: '/404', hidden: true }
-          // ]
 
           sessionStorage.setItem('isLogin',true);
           sessionStorage.setItem('djwjsc_token',data.data.token);

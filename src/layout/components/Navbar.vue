@@ -56,8 +56,8 @@ export default {
         if(data.code == 200){
           this.$message.success('退出登录成功');
           sessionStorage.clear();
-          // this.$router.push({path:'/login'})
-          this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+          this.$router.push('/login')
+          // this.$router.push(`/login?redirect=${this.$route.fullPath}`)
         }
       })
       // this.$message.success('退出登录成功');

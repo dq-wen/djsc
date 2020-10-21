@@ -23,7 +23,16 @@ axios.interceptors.response.use(
         });
         route.push({path:'/login'});
         sessionStorage.clear();
-      break
+        break
+      case 500:
+          Message({
+            message: errData.msg || '请求错误',
+            type: 'error',
+            duration: 2000,
+          });
+        break
+      default: 
+        
     }
     
   }

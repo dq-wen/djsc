@@ -98,6 +98,7 @@ export default {
           sessionStorage.setItem('isLogin',true);
           sessionStorage.setItem('djwjsc_token',data.data.token);
           sessionStorage.setItem('dj_userId',data.data.userId);
+          this.$store.state.username = this.loginForm.username
           
           utils.initRouter(this);
           // const getRouterJs = routerJs.filter(item=>item.meta.id==data.data.userId);

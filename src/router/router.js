@@ -74,7 +74,7 @@ const routerArr = [{
   path: '/csgl',
   name: 'csgl',
   component: () => import('@/views/csgl/index'),
-  meta: { id:13,title: '城市管理', icon: 'example' },
+  meta: { id:131,title: '城市管理', icon: 'example' },
   hidden:false
 },{
   path: '/csjs',

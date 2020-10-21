@@ -4,7 +4,7 @@
       <div class="uploadefile">
         <div class="top">
           <span class="title">所属模块</span>
-          <el-select v-model="firstOption" @change="changeOption" placeholder="请选择">
+          <el-select v-model="moduleId" placeholder="请选择">
             <el-option
               v-for="item in optionlist"
               :key="item.moduleId"
@@ -29,7 +29,7 @@
             <el-button class="uploadBtn" size="small" type="primary">点击上传</el-button>
           </el-upload>
           <div class="listTitleBox">
-            <p v-for="item in uploadlists" class="filetitle">{{item.name}}</p>
+            <p v-for="item in uploadlists" :key="item.uid" class="filetitle">{{item.name}}</p>
           </div>
           
         </div>
@@ -73,7 +73,7 @@ export default {
   data() {
     return{
         // firstOption:'4',
-        moduleId: '1',
+        moduleId: '',
         filelist: '',
         uploadlists:{}
     }
@@ -87,25 +87,31 @@ export default {
       type:Array,
       required: true
     },
-    firstOption:{
-      type:String,
-      required: true
-    }
   },
   computed:{
     accessToken(){
       return sessionStorage.getItem('djwjsc_token');
+    },
+    
+    firstOption(){
+      return  this.$store.state.firstOption
+    }
+  },
+  watch:{
+    firstOption(val){
+      this.moduleId = val
     }
   },
   methods: {
     ...mapMutations([
-      'USER_INFO'
+      'USER_INFO',
+      'SET_FIRSTOPTION'
     ]),
 
-    changeOption(res){
-      console.log(res)
-      this.moduleId = res;
-    },
+    // changeOption(res){
+    //   // console.log(res)
+    //   this.SET_FIRSTOPTION(res)
+    // },
 
     handlePreview(file) {
       this.$refs.upload.clearFiles()

@@ -10,5 +10,9 @@ export default {
 
   [types.SET_ROUTERID]:(state,routerId)=>{
     state.routerId = routerId
+  },
+
+  [types.SET_FIRSTOPTION]:(state,firstOption)=>{
+    state.firstOption = firstOption
   }
 }

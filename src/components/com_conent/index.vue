@@ -3,7 +3,6 @@
     <uploadefilelist 
       :optionlist="options" 
       :tableData="filelist" 
-      :firstOption="firstOption"
       @changefileList="changefileList">
     </uploadefilelist>
   </div>
@@ -21,7 +20,6 @@ export default {
     return{
       options: [],
       filelist: [],
-      firstOption:''
     }
   },
   computed:{
@@ -36,8 +34,11 @@ export default {
     this.getListData()
   },
   methods:{
+     ...mapMutations([
+      "SET_FIRSTOPTION"
+    ]),
     changefileList(){
-
+      this.getfilelist({userId:this.userId})
     },
 
     getListData(){
@@ -50,12 +51,16 @@ export default {
         if(res.data.code==200){
           console.log('所属模块',res.data.data)
           let getData = res.data.data;
-          this.options = this.getDatafilter(this.routerId,getData)
-          this.firstOption = this.options[0].moduleId
+          this.options = this.getDatafilter(this.routerId,getData);
+          this.SET_FIRSTOPTION(this.options[0].moduleId)
         }
       })
 
-      //获取上传列表
+      this.getfilelist(params);
+    },
+
+    //获取上传列表
+    getfilelist(params){
       getfilelist(params).then(res => {
         console.log('上传列表',res.data.data)
         let getListData = res.data.data;

@@ -57,7 +57,7 @@ export default {
       axios.post('/api/user/logout',{'X-Token':this.xtoken}).then(res=>{
         const data = res.data;
         if(data.code == 200){
-          this.$message.success('退出登录成功');
+          // this.$message.success('退出登录成功');
           sessionStorage.clear();
           this.$router.push('/login')
           // this.$router.push(`/login?redirect=${this.$route.fullPath}`)

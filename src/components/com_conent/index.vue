@@ -3,7 +3,6 @@
     <uploadefilelist 
       :optionlist="options" 
       :tableData="filelist" 
-      :refreshFilelist="refreshFilelist" 
       @changefileList="changefileList">
     </uploadefilelist>
   </div>
@@ -20,16 +19,9 @@ export default {
   data() {
     return{
       options: [],
-      filelist: [{
-        moduleName:'',
-        fileName: '2016-05-03',
-        filePath: '王小虎123123123',
-        createTime: '上海市普陀区金沙江路 1518 弄'
-      }],
-      refreshFilelist:'index2'
+      filelist: [],
     }
   },
-  props:['routerPath'],
   computed:{
     userId(){
       return sessionStorage.getItem('dj_userId')
@@ -54,26 +46,69 @@ export default {
       //获取所属模块
       moduleList(params).then(res=>{
         if(res.data.code==200){
-          console.log(res.data.data)
+          console.log('所属模块',res.data.data)
           let getData = res.data.data;
-          switch(this.routerId){
-            case 10:
-              this.options = getData.filter(item=>item.moduleId==11)
-              break
-            case 13:
-              this.options = getData.filter(item=>item.moduleId==4 || item.moduleId==5 || item.moduleId==6 || item.moduleId==7 || item.moduleId==8 || item.moduleId==9)
-              break
-            default:
-              this.options = getData
-          }
-          
+          this.options = this.getDatafilter(this.routerId,getData)
         }
       })
 
       //获取上传列表
       getfilelist(params).then(res => {
-        console.log(res)
+        console.log('上传列表',res.data.data)
+        let getListData = res.data.data;
+
+        this.filelist = this.getDatafilter(this.routerId,getListData)
+
       })
+    },
+
+    //数据筛选
+    getDatafilter(routerId,data){
+      let finalyData = []
+      switch(routerId){
+        case 2:
+          finalyData = data.filter(item=>item.moduleId==2)
+          break
+        case 3:
+          finalyData = data.filter(item=>item.moduleId==18)
+          break
+        case 5:
+          finalyData = data.filter(item=>item.moduleId==12)
+          break
+        case 9:
+          finalyData = data.filter(item=>item.moduleId==17)
+          break
+        case 10:
+          finalyData = data.filter(item=>item.moduleId==11)
+          break
+        case 11:
+          finalyData = data.filter(item=>item.moduleId==14)
+          break
+        case 12:
+          finalyData = data.filter(item=>item.moduleId==16)
+          break
+        case 13:
+          finalyData = data.filter(item=>item.moduleId==4 || item.moduleId==5 || item.moduleId==6 || item.moduleId==7 || item.moduleId==8 || item.moduleId==9)
+          break
+        case 14:
+          finalyData = data.filter(item=>item.moduleId==1)
+          break
+        case 15:
+          finalyData = data.filter(item=>item.moduleId==15)
+          break
+        case 16:
+          finalyData = data.filter(item=>item.moduleId==3)
+          break
+        case 17:
+          finalyData = data.filter(item=>item.moduleId==13)
+          break
+        case 18:
+          finalyData = data.filter(item=>item.moduleId==10)
+          break
+        default:
+          finalyData = data
+      }
+      return finalyData
     }
   }
 }

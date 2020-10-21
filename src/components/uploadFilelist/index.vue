@@ -37,11 +37,10 @@
       </div>
       <div class="filelist">
         <h3>上传文件列表</h3>
-        <!-- <p>{{refreshFilelist}}</p> -->
         <div class="list">
             <el-table
               :data="tableData"
-              height="600"
+              max-height="600"
               border
               style="width: 100%">
               <el-table-column
@@ -88,12 +87,7 @@ export default {
       type:Array,
       required: true
     },
-    refreshFilelist:{
-      type:String,
-      default:''
-    }
   },
-  
   computed:{
     accessToken(){
       return sessionStorage.getItem('djwjsc_token');
@@ -118,7 +112,6 @@ export default {
       this.filelist = file.name;
       // bus.$emit('refresh','更新数据')
       this.$emit('changefileList')
-      console.log(this.refreshFilelist)
     },
   }
 }
@@ -128,7 +121,7 @@ export default {
 .index{
   width: 1000px;
   height: 100%;
-  margin: 0 auto;
+  margin: 0 auto 20px;
   .uploadefile{
     margin-top:50px;
     width: 100%;
@@ -176,7 +169,6 @@ export default {
   }
   .filelist{
     width: 100%;
-    height: 650px;
     margin-top:50px;
     padding-top: 1px;
     overflow: hidden;

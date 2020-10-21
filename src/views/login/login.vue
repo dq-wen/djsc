@@ -74,7 +74,7 @@ export default {
   watch: {
     $route: {
       handler: function(route) {
-        this.redirect = route.query && route.query.redirect
+        // this.redirect = route.query && route.query.redirect
       },
       immediate: true
     }
@@ -94,12 +94,19 @@ export default {
       login(this.loginForm).then(res => {
         const data = res.data;
         if(data.code == 200){
-
+          let getData = data.data;
           sessionStorage.setItem('isLogin',true);
+<<<<<<< HEAD
           sessionStorage.setItem('djwjsc_token',data.data.token);
           sessionStorage.setItem('dj_userId',data.data.userId);
           this.$store.state.username = this.loginForm.username
           
+=======
+          sessionStorage.setItem('djwjsc_token',getData.token);
+          sessionStorage.setItem('dj_userId',getData.userId);
+          sessionStorage.setItem('dj_userName',getData.userName);
+
+>>>>>>> f237c99dce06415fff1022a3e4c33ca10c5208a0
           utils.initRouter(this);
           // const getRouterJs = routerJs.filter(item=>item.meta.id==data.data.userId);
 
@@ -122,7 +129,6 @@ export default {
 
           // this.$router.options.routes = routerArr;
           // routerIndex.addRoutes(routerArr)
-
           this.$router.push({ path: this.redirect || '/' });
         }
       })

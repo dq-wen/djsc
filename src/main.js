@@ -21,6 +21,9 @@ import uploadefilelist from './components/uploadFilelist'
 Vue.use(ElementUI, { locale })
 Vue.component('uploadefilelist',uploadefilelist)
 
+import com_conent from './components/com_conent'
+Vue.component('comConent',com_conent)
+
 Vue.config.productionTip = false
 Vue.prototype.$api = api
 

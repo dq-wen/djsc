@@ -14,7 +14,7 @@
 <script>
 import { Navbar, Sidebar, AppMain } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
-
+import {resetRouter}  from '@/router/index';
 export default {
   name: 'Layout',
   components: {
@@ -46,6 +46,11 @@ export default {
     handleClickOutside() {
       this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
     }
+  },
+  
+  //销毁阶段直接使用
+  destroyed() {    
+    resetRouter(); //退出系统，重置路由
   }
 }
 </script>

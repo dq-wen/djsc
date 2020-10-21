@@ -24,7 +24,7 @@ module.exports = {
   productionSourceMap: false,
   devServer: {
     port: process.env.VUE_APP_PORT,
-    open: false,
+    open: true,
     overlay: {
       warnings: false,
       errors: true

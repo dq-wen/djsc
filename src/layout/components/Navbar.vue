@@ -5,7 +5,7 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <span style="margin-left:30px;">湖北监管管理员</span>
+          <span style="margin-left:30px;">{{userName}}</span>
           <i class="el-icon-arrow-down" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -43,7 +43,10 @@ export default {
 
     xtoken(){
       return sessionStorage.getItem('djwjsc_token');
-    }
+    },
+    userName(){
+      return sessionStorage.getItem('dj_userName')
+    },
   },
   methods: {
     toggleSideBar() {

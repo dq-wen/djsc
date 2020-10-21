@@ -6,5 +6,9 @@ export default {
   },
   [types.MENU_INDEX](state, payload) {
     state.menuIndex = payload
+  },
+
+  [types.SET_ROUTERID]:(state,routerId)=>{
+    state.routerId = routerId
   }
 }

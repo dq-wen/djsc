@@ -4,12 +4,12 @@
       <div class="uploadefile">
         <div class="top">
           <span class="title">所属模块</span>
-          <el-select v-model="value" @change="changeOption" placeholder="请选择">
+          <el-select v-model="moduleName" @change="changeOption" placeholder="请选择">
             <el-option
               v-for="item in optionlist"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              :key="item.moduleId"
+              :label="item.moduleName"
+              :value="item.moduleId"
               >
             </el-option>
           </el-select>
@@ -36,8 +36,8 @@
         
       </div>
       <div class="filelist">
-        <p>上传文件列表</p>
-        <p>{{refreshFilelist}}</p>
+        <h3>上传文件列表</h3>
+        <!-- <p>{{refreshFilelist}}</p> -->
         <div class="list">
             <el-table
               :data="tableData"
@@ -73,60 +73,59 @@ import { bus } from '../Bus/bus.js'
 export default {
   data() {
     return{
-        value: '1',
+        moduleName:'',
         moduleId: '1',
         filelist: '',
-        optionlist:'',
     }
   },
-  props:['tableData','refreshFilelist'],
-  created() {
-    console.log(this.$store.state)
-    console.log(this.USER_INFO)
+  props:{
+    optionlist:{
+      type:Array,
+      required: true
+    },
+    tableData:{
+      type:Array,
+      required: true
+    },
+    refreshFilelist:{
+      type:String,
+      default:''
+    }
   },
+  
   computed:{
     accessToken(){
       return sessionStorage.getItem('djwjsc_token');
     }
   },
-  mounted(){
-    // this.getfilelistData()
-  },
   methods: {
     ...mapMutations([
       'USER_INFO'
     ]),
+
     changeOption(res){
-      console.log(res)
       this.moduleId = res;
     },
-      handlePreview(file) {
-        this.$refs.upload.clearFiles()
-      },
-      uploadeSuccess(response, file, fileList){
-        this.filelist = file.name;
-        // bus.$emit('refresh','更新数据')
-        this.$emit('changefileList')
-        console.log(this.refreshFilelist)
-        // this.$emit(changefileList)
-        // this.getfilelistData()
-      },
-      //
-      getfilelistData(){
-        
-        getfilelist().then(res => {
-          console.log(res)
-        })
-      }
+
+    handlePreview(file) {
+      this.$refs.upload.clearFiles()
+    },
+
+    uploadeSuccess(response, file, fileList){
+      this.filelist = file.name;
+      // bus.$emit('refresh','更新数据')
+      this.$emit('changefileList')
+      console.log(this.refreshFilelist)
+    },
   }
 }
 </script>
 
 <style lang="scss">
 .index{
-  width: 1200px;
+  width: 1000px;
   height: 100%;
-  margin: auto;
+  margin: 0 auto;
   .uploadefile{
     margin-top:50px;
     width: 100%;
@@ -174,9 +173,10 @@ export default {
     height: 650px;
     margin-top:50px;
     border: 1px solid #454545;
+    h3{
+      text-align: center;
+    }
   }
-  p{
-    text-align: center;
-  }
+  
 }
 </style>

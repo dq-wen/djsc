@@ -7,13 +7,22 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
 export default {
   name: 'AppMain',
   computed: {
+
     key() {
+      console.log(this.$route.meta.id)
+      this.SET_ROUTERID(this.$route.meta.id);
       return this.$route.path
     }
-  }
+  },
+  methods: {
+    ...mapMutations([
+      "SET_ROUTERID"
+    ]),
+  },
 }
 </script>
 

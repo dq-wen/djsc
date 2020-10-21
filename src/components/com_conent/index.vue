@@ -3,6 +3,7 @@
     <uploadefilelist 
       :optionlist="options" 
       :tableData="filelist" 
+      :firstOption="firstOption"
       @changefileList="changefileList">
     </uploadefilelist>
   </div>
@@ -20,6 +21,7 @@ export default {
     return{
       options: [],
       filelist: [],
+      firstOption:''
     }
   },
   computed:{
@@ -49,6 +51,7 @@ export default {
           console.log('所属模块',res.data.data)
           let getData = res.data.data;
           this.options = this.getDatafilter(this.routerId,getData)
+          this.firstOption = this.options[0].moduleId
         }
       })
 

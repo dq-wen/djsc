@@ -4,7 +4,7 @@
       <div class="uploadefile">
         <div class="top">
           <span class="title">所属模块</span>
-          <el-select v-model="moduleName" @change="changeOption" placeholder="请选择">
+          <el-select v-model="firstOption" @change="changeOption" placeholder="请选择">
             <el-option
               v-for="item in optionlist"
               :key="item.moduleId"
@@ -72,7 +72,7 @@ import { bus } from '../Bus/bus.js'
 export default {
   data() {
     return{
-        moduleName:'',
+        // firstOption:'4',
         moduleId: '1',
         filelist: '',
         uploadlists:{}
@@ -87,6 +87,10 @@ export default {
       type:Array,
       required: true
     },
+    firstOption:{
+      type:String,
+      required: true
+    }
   },
   computed:{
     accessToken(){
@@ -99,6 +103,7 @@ export default {
     ]),
 
     changeOption(res){
+      console.log(res)
       this.moduleId = res;
     },
 

@@ -21,9 +21,10 @@ export default {
     return{
       options: [],
       filelist: [{
-        date: '2016-05-03',
-        name: '王小虎123123123',
-        address: '上海市普陀区金沙江路 1518 弄'
+        moduleName:'',
+        fileName: '2016-05-03',
+        filePath: '王小虎123123123',
+        createTime: '上海市普陀区金沙江路 1518 弄'
       }],
       refreshFilelist:'index2'
     }
@@ -71,7 +72,7 @@ export default {
 
       //获取上传列表
       getfilelist(params).then(res => {
-        // console.log(res)
+        console.log(res)
       })
     }
   }

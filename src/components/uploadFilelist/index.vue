@@ -29,7 +29,7 @@
             <el-button class="uploadBtn" size="small" type="primary">点击上传</el-button>
           </el-upload>
           <div class="listTitleBox">
-            <p class="filetitle">{{filelist}}</p>
+            <p v-for="item in uploadlists" class="filetitle">{{item.name}}</p>
           </div>
           
         </div>
@@ -45,19 +45,19 @@
               border
               style="width: 100%">
               <el-table-column
-                prop="date"
+                prop="moduleName"
                 label="所属模块">
               </el-table-column>
               <el-table-column
-                prop="name"
+                prop="fileName"
                 label="文件名">
               </el-table-column>
               <el-table-column
-                prop="address"
+                prop="filePath"
                 label="上传目录">
               </el-table-column>
               <el-table-column
-                prop="address"
+                prop="createTime"
                 label="上传时间">
               </el-table-column>
             </el-table>
@@ -76,6 +76,7 @@ export default {
         moduleName:'',
         moduleId: '1',
         filelist: '',
+        uploadlists:{}
     }
   },
   props:{
@@ -112,6 +113,8 @@ export default {
     },
 
     uploadeSuccess(response, file, fileList){
+      console.log(fileList)
+      this.uploadlists = fileList
       this.filelist = file.name;
       // bus.$emit('refresh','更新数据')
       this.$emit('changefileList')
@@ -130,7 +133,8 @@ export default {
     margin-top:50px;
     width: 100%;
     height: 300px;
-    border: 1px solid red;
+    box-shadow: 0px 0px 10px 0px #aaa;
+    // border: 1px solid red;
     .top{
       width: 100%;
       height: 50px;
@@ -161,6 +165,8 @@ export default {
         position: absolute;
         top: 40%;
         width: 100%;
+        height: 130px;
+        overflow: auto;
         .filetitle{
           text-align: center;
         }
@@ -172,7 +178,10 @@ export default {
     width: 100%;
     height: 650px;
     margin-top:50px;
-    border: 1px solid #454545;
+    padding-top: 1px;
+    overflow: hidden;
+    box-shadow: 0px 0px 10px 0px #aaa;
+    // border: 1px solid #454545;
     h3{
       text-align: center;
     }

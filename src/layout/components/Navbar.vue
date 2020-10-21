@@ -5,11 +5,7 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-<<<<<<< HEAD
-          <span style="margin-left:30px;">你好，{{this.$store.state.username}}</span>
-=======
           <span style="margin-left:30px;">{{userName}}</span>
->>>>>>> f237c99dce06415fff1022a3e4c33ca10c5208a0
           <i class="el-icon-arrow-down" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">

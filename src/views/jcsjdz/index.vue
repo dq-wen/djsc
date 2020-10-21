@@ -13,7 +13,7 @@ export default {
     return{
       options: [{
           value: '1',
-          label: '党群服务中心123123123'
+          label: '党群服务中心7788'
         }],
         value: '1',
         module_id: '1',

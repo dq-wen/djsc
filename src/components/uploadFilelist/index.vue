@@ -76,9 +76,10 @@ export default {
         value: '1',
         moduleId: '1',
         filelist: '',
+        optionlist:'',
     }
   },
-  props:['optionlist','tableData','refreshFilelist'],
+  props:['tableData','refreshFilelist'],
   created() {
     console.log(this.$store.state)
     console.log(this.USER_INFO)

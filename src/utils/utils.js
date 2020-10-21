@@ -31,8 +31,10 @@ utils.initRouter = function(vm){
   }
 
   routerArr.push(obj404)
-  // sessionStorage.setItem('dj_meanList',JSON.stringify(routerArr))
+
+  vm.$router.options.routes = [];
   vm.$router.options.routes = routerArr;
+  
   routerIndex.addRoutes(routerArr)
 };
 

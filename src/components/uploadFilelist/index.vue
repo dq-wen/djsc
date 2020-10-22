@@ -77,6 +77,7 @@
 <script>
 import { mapMutations } from 'vuex'
 import { bus } from '../Bus/bus.js'
+import { deleteFile} from './api'
 export default {
   data() {
     return{
@@ -131,7 +132,6 @@ export default {
     
     uploadeSuccess(res, file, fileList){
       console.log(res,fileList)
-      
       if(res.code==200){
         this.uploadlists = fileList;
         this.$emit('changefileList')
@@ -155,21 +155,31 @@ export default {
       }
 
       let delFiles = [];
-      this.getSelectionFile.forEach(item=>{
-        delFiles.push(Object.assign({},{filePath:item.filePath,fileId:''}))
+      delFiles = this.getSelectionFile.map(item=>{
+       return item.filePath
       })
       console.log(delFiles)
-      
-      this.$confirm('您确认要删除所选的' + selectionFileLength + '条数据?', '提示', {
+
+      this.$confirm('您确认要删除所选的<span style="color:red">&nbsp;' + selectionFileLength + '&nbsp;</span>条数据?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
+        dangerouslyUseHTMLString: true,
         type: 'warning',
         center: true
       }).then(() => {
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        });
+
+        deleteFile(delFiles).then(res=>{
+          if(res.data.code==200){
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+            this.$refs.upload.clearFiles();
+            this.uploadlists = [];
+            this.$emit('changefileList');
+          }
+        })
+
       }).catch(() => {
         this.$message({
           type: 'info',

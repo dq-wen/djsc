@@ -63,8 +63,8 @@ export default {
         password: 'dj_user@123'
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur' }],
-        password: [{ required: true, trigger: 'blur' }]
+        username: [{ required: true,message: "请输入账号", trigger: 'blur' }],
+        password: [{ required: true,message: "请输入密码", trigger: 'blur' }]
       },
       loading: false,
       passwordType: 'password',
@@ -91,40 +91,45 @@ export default {
       })
     },
     userLogin(){
-      login(this.loginForm).then(res => {
-        const data = res.data;
-        if(data.code == 200){
-          let getData = data.data;
-          sessionStorage.setItem('isLogin',true);
-          sessionStorage.setItem('djwjsc_token',getData.token);
-          sessionStorage.setItem('dj_userId',getData.userId);
-          sessionStorage.setItem('dj_userName',getData.userName);
+      login(this.loginForm)
+        .then(res => {
+          const data = res.data;
+          if(data.code == 200){
+            let getData = data.data;
+            sessionStorage.setItem('isLogin',true);
+            sessionStorage.setItem('djwjsc_token',getData.token);
+            sessionStorage.setItem('dj_userId',getData.userId);
+            sessionStorage.setItem('dj_userName',getData.userName);
 
-          utils.initRouter(this);
-          // const getRouterJs = routerJs.filter(item=>item.meta.id==data.data.userId);
+            utils.initRouter(this);
+            // const getRouterJs = routerJs.filter(item=>item.meta.id==data.data.userId);
 
-          // const routerArr = getRouterJs.map(item=>{
-          //   return {
-          //     path:'/',
-          //     component:Layout,
-          //     redirect:item.path,
-          //     children:[item]
-          //   }
-          // })
+            // const routerArr = getRouterJs.map(item=>{
+            //   return {
+            //     path:'/',
+            //     component:Layout,
+            //     redirect:item.path,
+            //     children:[item]
+            //   }
+            // })
 
-          // const obj404 = {
-          //   path:'/*',
-          //   component: () => import('@/views/404'),
-          //   hidden:true
-          // }
-          // routerArr.push(obj404)
-          // sessionStorage.setItem('dj_meanList',JSON.stringify(routerArr))
+            // const obj404 = {
+            //   path:'/*',
+            //   component: () => import('@/views/404'),
+            //   hidden:true
+            // }
+            // routerArr.push(obj404)
+            // sessionStorage.setItem('dj_meanList',JSON.stringify(routerArr))
 
-          // this.$router.options.routes = routerArr;
-          // routerIndex.addRoutes(routerArr)
-          this.$router.push({ path: this.redirect || '/' });
-        }
-      })
+            // this.$router.options.routes = routerArr;
+            // routerIndex.addRoutes(routerArr)
+            this.$router.push({ path: this.redirect || '/' });
+          }
+        })
+        .catch(() => {
+          this.$message.warning('登录失败');
+          this.loading = false;
+        })
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {

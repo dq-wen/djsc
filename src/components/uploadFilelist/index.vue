@@ -4,7 +4,7 @@
       <div class="uploadefile">
         <div class="top">
           <span class="title">所属模块</span>
-          <el-select v-model="moduleId" placeholder="请选择">
+          <el-select v-model="moduleId" @change="changeOption" placeholder="请选择">
             <el-option
               v-for="item in optionlist"
               :key="item.moduleId"
@@ -14,12 +14,12 @@
             </el-option>
           </el-select>
         </div>
-
+         <!-- accept=".doc,.docx,.xls,.xlsx,.pdf,.jpg,.jpeg,.png,.scv,.csv" -->
         <div class="botton">
           <el-upload
             class="upload-demo"
-            ref=“upload”
-            action="api/ftp/upload-file"
+            ref="upload"
+            :action="api+'/ftp/upload-file'"
             :on-preview="handlePreview"
             :on-success="uploadeSuccess"
             :show-file-list="false"
@@ -37,12 +37,20 @@
       </div>
       <div class="filelist">
         <h3>上传文件列表</h3>
+        <el-button type="danger" class="btnDel" @click="delFiles" icon="el-icon-delete" circle></el-button>
         <div class="list">
-            <el-table
-              :data="tableData"
-              max-height="600"
-              border
-              style="width: 100%">
+          <el-table
+            :data="tableData"
+            max-height="400"
+            border
+            style="width: 100%"
+            @selection-change="selectionChange"
+          >
+              <el-table-column
+                type="selection"
+                align="center"
+                width="45">
+              </el-table-column>
               <el-table-column
                 prop="moduleName"
                 label="所属模块">
@@ -74,8 +82,9 @@ export default {
     return{
         // firstOption:'4',
         moduleId: '',
-        filelist: '',
-        uploadlists:{}
+        uploadlists:{},
+        api:process.env.VUE_APP_BASE_API,
+        getSelectionFile:[],
     }
   },
   props:{
@@ -109,22 +118,65 @@ export default {
       'SET_FIRSTOPTION'
     ]),
 
-    // changeOption(res){
-    //   // console.log(res)
-    //   this.SET_FIRSTOPTION(res)
-    // },
+    changeOption(res){
+      // console.log(res)
+      this.SET_FIRSTOPTION(res);
+      this.$refs.upload.clearFiles()
+      this.uploadlists = [];
+    },
 
     handlePreview(file) {
-      this.$refs.upload.clearFiles()
+      // this.$refs.upload.clearFiles()
+    },
+    
+    uploadeSuccess(res, file, fileList){
+      console.log(res,fileList)
+      
+      if(res.code==200){
+        this.uploadlists = fileList;
+        this.$emit('changefileList')
+        this.$message.success('文件上传成功！');
+      }else{
+        this.$message.warning(res.msg);
+        this.$refs.upload.clearFiles()
+      }
     },
 
-    uploadeSuccess(response, file, fileList){
-      console.log(fileList)
-      this.uploadlists = fileList
-      this.filelist = file.name;
-      // bus.$emit('refresh','更新数据')
-      this.$emit('changefileList')
+    //选中的文件
+    selectionChange(val){
+      this.getSelectionFile = val;
     },
+
+    delFiles(){
+      let selectionFileLength = this.getSelectionFile.length
+      if(selectionFileLength<=0){
+        this.$message.warning('您还未选择要删除的数据')
+        return
+      }
+
+      let delFiles = [];
+      this.getSelectionFile.forEach(item=>{
+        delFiles.push(Object.assign({},{filePath:item.filePath,fileId:''}))
+      })
+      console.log(delFiles)
+      
+      this.$confirm('您确认要删除所选的' + selectionFileLength + '条数据?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        center: true
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    }
   }
 }
 </script>
@@ -133,7 +185,7 @@ export default {
 .index{
   width: 1000px;
   height: 100%;
-  margin: 0 auto 20px;
+  margin: 0 auto 10px;
   .uploadefile{
     margin-top:50px;
     width: 100%;
@@ -141,12 +193,12 @@ export default {
     box-shadow: 0px 0px 10px 0px #aaa;
     // border: 1px solid red;
     .top{
+      padding-top:20px;
       width: 100%;
       height: 50px;
-      line-height: 50px;
       text-align: center;
       .title{
-        margin-right: 100px;
+        margin-right: 75px;
       }
     }
     .botton{
@@ -156,7 +208,7 @@ export default {
       position: relative;
       .upload-demo{
         position: absolute;
-        top: 30%;
+        top: 20%;
         width: 100%;
         // transform: translate(0,-50%);
       }
@@ -185,9 +237,18 @@ export default {
     padding-top: 1px;
     overflow: hidden;
     box-shadow: 0px 0px 10px 0px #aaa;
+    position: relative;
     // border: 1px solid #454545;
     h3{
       text-align: center;
+    }
+    .list{
+      padding:0 10px 10px;
+    }
+    .btnDel{
+      position: absolute;
+      right:15px;
+      top:10px;
     }
   }
   

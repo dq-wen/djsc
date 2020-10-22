@@ -54,7 +54,7 @@ export default {
     },
 
     logout() {
-      axios.post('/api/user/logout',{'X-Token':this.xtoken}).then(res=>{
+      axios.post(`${process.env.VUE_APP_BASE_API}/user/logout`,{'X-Token':this.xtoken}).then(res=>{
         const data = res.data;
         if(data.code == 200){
           // this.$message.success('退出登录成功');

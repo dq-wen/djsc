@@ -17,14 +17,15 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  publicPath: '/',
+  publicPath: '/ftp',
   outputDir: 'dist',
-  assetsDir: 'static',
+  // assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
   devServer: {
     port: process.env.VUE_APP_PORT,
-    open: true,
+    host:'0.0.0.0',
+    // open: true,
     overlay: {
       warnings: false,
       errors: true

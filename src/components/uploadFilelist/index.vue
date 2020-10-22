@@ -94,7 +94,8 @@ export default {
     },
     
     firstOption(){
-      return  this.$store.state.firstOption
+      this.moduleId = this.$store.state.firstOption
+      return  this.moduleId
     }
   },
   watch:{

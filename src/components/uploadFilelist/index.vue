@@ -130,15 +130,14 @@ export default {
     
     uploadeSuccess(res, file, fileList){
       console.log(res,fileList)
-      this.uploadlists = fileList;
-      // if(res.code==200){
-      //   this.uploadlists = fileList;
-      //   this.$emit('changefileList')
-      //   this.$message.success('文件上传成功！');
-      // }else{
-      //   this.$message.warning(res.msg);
-      //   this.$refs.upload.clearFiles()
-      // }
+      if(res.code==200){
+        this.uploadlists = fileList;
+        this.$emit('changefileList')
+        this.$message.success('文件上传成功！');
+      }else{
+        this.$message.warning(res.msg);
+        this.$refs.upload.clearFiles()
+      }
     },
 
     //选中的文件

@@ -1,74 +1,72 @@
 <template>
-  <div class="bg">
-    <div class="index">
-      <div class="uploadefile">
-        <div class="top">
-          <span class="title">所属模块</span>
-          <el-select v-model="moduleId" @change="changeOption" placeholder="请选择">
-            <el-option
-              v-for="item in optionlist"
-              :key="item.moduleId"
-              :label="item.moduleName"
-              :value="item.moduleId"
-              >
-            </el-option>
-          </el-select>
-        </div>
-         <!-- accept=".doc,.docx,.xls,.xlsx,.pdf,.jpg,.jpeg,.png,.scv,.csv" -->
-        <div class="botton">
-          <el-upload
-            class="upload-demo"
-            ref="upload"
-            :action="api+'/ftp/upload-file'"
-            :on-preview="handlePreview"
-            :on-success="uploadeSuccess"
-            :show-file-list="false"
-            :data="{'moduleId':moduleId}"
-            :headers="{'X-Token':accessToken}"
-            multiple>
-            <el-button class="uploadBtn" size="small" type="primary">点击上传</el-button>
-          </el-upload>
-          <div class="listTitleBox">
-            <p v-for="item in uploadlists" :key="item.uid" class="filetitle">{{item.name}}</p>
-          </div>
-          
+  <div class="uploadFileList">
+    <div class="uploadefile">
+      <div class="top">
+        <span class="title">所属模块</span>
+        <el-select v-model="moduleId" @change="changeOption" placeholder="请选择">
+          <el-option
+            v-for="item in optionlist"
+            :key="item.moduleId"
+            :label="item.moduleName"
+            :value="item.moduleId"
+            >
+          </el-option>
+        </el-select>
+      </div>
+        <!-- accept=".doc,.docx,.xls,.xlsx,.pdf,.jpg,.jpeg,.png,.scv,.csv" -->
+      <div class="botton">
+        <el-upload
+          class="upload-demo"
+          ref="upload"
+          :action="api+'/ftp/upload-file'"
+          :on-preview="handlePreview"
+          :on-success="uploadeSuccess"
+          :show-file-list="false"
+          :data="{'moduleId':moduleId}"
+          :headers="{'X-Token':accessToken}"
+          multiple>
+          <el-button class="uploadBtn" size="small" type="primary">点击上传</el-button>
+        </el-upload>
+        <div class="listTitleBox scrollbar">
+          <p v-for="item in uploadlists" :key="item.uid" class="filetitle">{{item.name}}</p>
         </div>
         
       </div>
-      <div class="filelist">
-        <h3>上传文件列表</h3>
-        <el-button type="danger" class="btnDel" @click="delFiles" icon="el-icon-delete" circle></el-button>
-        <div class="list">
-          <el-table
-            :data="tableData"
-            max-height="400"
-            border
-            style="width: 100%"
-            @selection-change="selectionChange"
-          >
-              <el-table-column
-                type="selection"
-                align="center"
-                width="45">
-              </el-table-column>
-              <el-table-column
-                prop="moduleName"
-                label="所属模块">
-              </el-table-column>
-              <el-table-column
-                prop="fileName"
-                label="文件名">
-              </el-table-column>
-              <el-table-column
-                prop="filePath"
-                label="上传目录">
-              </el-table-column>
-              <el-table-column
-                prop="createTime"
-                label="上传时间">
-              </el-table-column>
-            </el-table>
-        </div>
+      
+    </div>
+    <div class="filelist">
+      <h3>上传文件列表</h3>
+      <el-button type="danger" class="btnDel" @click="delFiles" icon="el-icon-delete" circle></el-button>
+      <div class="list">
+        <el-table
+          :data="tableData"
+          max-height="400"
+          border
+          style="width: 100%"
+          @selection-change="selectionChange"
+        >
+            <el-table-column
+              type="selection"
+              align="center"
+              width="45">
+            </el-table-column>
+            <el-table-column
+              prop="moduleName"
+              label="所属模块">
+            </el-table-column>
+            <el-table-column
+              prop="fileName"
+              label="文件名">
+            </el-table-column>
+            <el-table-column
+              prop="filePath"
+              label="上传目录">
+            </el-table-column>
+            <el-table-column
+              prop="createTime"
+              label="上传时间">
+            </el-table-column>
+          </el-table>
       </div>
     </div>
   </div>
@@ -132,14 +130,15 @@ export default {
     
     uploadeSuccess(res, file, fileList){
       console.log(res,fileList)
-      if(res.code==200){
-        this.uploadlists = fileList;
-        this.$emit('changefileList')
-        this.$message.success('文件上传成功！');
-      }else{
-        this.$message.warning(res.msg);
-        this.$refs.upload.clearFiles()
-      }
+      this.uploadlists = fileList;
+      // if(res.code==200){
+      //   this.uploadlists = fileList;
+      //   this.$emit('changefileList')
+      //   this.$message.success('文件上传成功！');
+      // }else{
+      //   this.$message.warning(res.msg);
+      //   this.$refs.upload.clearFiles()
+      // }
     },
 
     //选中的文件
@@ -192,7 +191,7 @@ export default {
 </script>
 
 <style lang="scss">
-.index{
+.uploadFileList{
   width: 1000px;
   height: 100%;
   margin: 0 auto 10px;
@@ -208,7 +207,7 @@ export default {
       height: 50px;
       text-align: center;
       .title{
-        margin-right: 75px;
+        margin-right: 20px;
       }
     }
     .botton{
@@ -218,24 +217,27 @@ export default {
       position: relative;
       .upload-demo{
         position: absolute;
-        top: 20%;
+        top: 15%;
         width: 100%;
         // transform: translate(0,-50%);
       }
       .uploadBtn{
         position: absolute;
-        left: 50%;
+        left: 33%;
         top: 10%;
-        transform: translate(-35%,-50%);
+        // transform: translate(-35%,-50%);
       }
       .listTitleBox{
         position: absolute;
-        top: 40%;
+        top: 35%;
+        left: 33%;
         width: 100%;
         height: 130px;
         overflow: auto;
         .filetitle{
-          text-align: center;
+          margin:0;
+          padding:5px 0;
+        //   text-align: center;
         }
       }
       

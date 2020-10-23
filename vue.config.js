@@ -10,6 +10,7 @@ const name = defaultSettings.title || 'vue Admin Template' // page title
 
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
+  lintOnSave:false,//这里禁止使用eslint-loader
   /**
    * You will need to set publicPath if you plan to deploy your site under a sub path,
    * for example GitHub Pages. If you plan to deploy your site to https://foo.github.io/bar/,
@@ -20,7 +21,7 @@ module.exports = {
   publicPath: '/ftp',
   outputDir: 'dist',
   // assetsDir: 'static',
-  lintOnSave: process.env.NODE_ENV === 'development',
+  // lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
   devServer: {
     port: process.env.VUE_APP_PORT,

@@ -2,13 +2,29 @@
   <div class="com_conent">
     <uploadefilelist 
       :optionlist="options" 
-      :tableData="filelist" 
+      :tableData="filelist"
+      @getDownFile="getDownFile" 
       @changefileList="changefileList">
     </uploadefilelist>
+    <el-dialog
+      title="模板下载列表"
+      :visible.sync="dialogVisible"
+      width="30%"
+      center>
+      <ul class="downFileList">
+        <li v-for="item in downFileData" :key="item.modelFile">
+          <a  @click="downFileBtn(item.modelFile)">{{item.name}}</a>
+        </li>
+      </ul>
+      <!-- <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span> -->
+    </el-dialog>
   </div>
 </template>
 <script>
-import { getfilelist , moduleList} from './api'
+import { getfilelist , moduleList,downModelList,downloadFile} from './api'
 import uploadefilelist from '../uploadFilelist'
 import { mapState, mapMutations } from "vuex";
 export default {
@@ -20,6 +36,8 @@ export default {
     return{
       options: [],
       filelist: [],
+      dialogVisible:false,
+      downFileData:[],
     }
   },
   computed:{
@@ -37,6 +55,55 @@ export default {
      ...mapMutations([
       "SET_FIRSTOPTION"
     ]),
+
+    //下载
+    downFileBtn(modelFile){
+      downloadFile({filePath:modelFile}).then(res=>{
+        if(res.type=='application/json'){
+          let reader = new FileReader();
+          reader.onload =e =>{
+            let err = JSON.parse(e.target.result);
+            this.$Modal.error({
+                title: '错误提示:',
+                content: err.message
+            });
+          }
+          reader.readAsText(res)
+        }else{
+          this.content = res.data;
+          const filename = res.filename.split(';')[1].split('=')[1];
+          this.filename = decodeURI(filename)
+          const blob = new Blob([this.content])
+          if (window.navigator.msSaveOrOpenBlob) {
+            // 兼容IE10
+            navigator.msSaveBlob(blob, this.filename)
+          } else {
+            //  chrome/firefox
+            const aTag = document.createElement('a')
+            aTag.download = JSON.parse(this.filename);
+            aTag.href = URL.createObjectURL(blob)
+            aTag.click()
+            URL.revokeObjectURL(aTag.href)
+          }
+        }
+      })
+    },
+
+    //得到下载模板
+    getDownFile(moduleId){
+      downModelList({userId:this.userId,moduleId:moduleId}).then(res=>{
+        if(res.data.code ==200){
+          this.downFileData = res.data.data || [];
+          this.downFileData.forEach(item=>{
+            item['name'] = item.modelFile.split('/').pop().toLowerCase();
+          })
+          console.log(this.downFileData)
+          this.dialogVisible = true;
+        }
+        
+      })
+    },
+
     changefileList(){
       this.getfilelist({userId:this.userId})
     },
@@ -122,5 +189,28 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+  .com_conent{
+    ul,ol{
+      list-style:none;
+      padding:0;
+      margin:0;
+    }
 
+    .downFileList{
+      li{
+        text-align: center;
+        line-height:30px;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        a{
+          text-decoration: underline;
+        }
+        a:hover{
+          color:red;
+        }
+      }
+    }
+  }
+ 
 </style>

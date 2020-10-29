@@ -10,6 +10,13 @@ axios.interceptors.request.use(function (config) {
 });
 axios.interceptors.response.use(
   function (response) {
+    if (response.headers['content-disposition']) {
+      const temp = {}
+      temp.data = response.data
+      temp.filename = response.headers['content-disposition']
+      return temp
+    }
+
     return response;
   },
   error=>{

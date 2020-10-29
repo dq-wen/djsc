@@ -12,6 +12,7 @@
             >
           </el-option>
         </el-select>
+        <el-button type="info" @click="getDownFile(moduleId)">模板下载</el-button>
       </div>
         <!-- accept=".doc,.docx,.xls,.xlsx,.pdf,.jpg,.jpeg,.png,.scv,.csv" -->
       <div class="botton">
@@ -117,8 +118,12 @@ export default {
       'SET_FIRSTOPTION'
     ]),
 
+    getDownFile(moduleId){
+      this.$emit('getDownFile',moduleId)
+    },
+
     changeOption(res){
-      // console.log(res)
+      console.log(res)
       this.SET_FIRSTOPTION(res);
       this.$refs.upload.clearFiles()
       this.uploadlists = [];

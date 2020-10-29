@@ -13,7 +13,7 @@
       center>
       <ul class="downFileList">
         <li v-for="item in downFileData" :key="item.modelFile">
-          <a  @click="downFileBtn(item.modelFile)">{{item.name}}</a>
+          <a  @click="downFileBtn(item.modelFile)">{{item.chiName}}</a>
         </li>
       </ul>
       <!-- <span slot="footer" class="dialog-footer">
@@ -94,11 +94,16 @@ export default {
       downModelList({userId:this.userId,moduleId:moduleId}).then(res=>{
         if(res.data.code ==200){
           this.downFileData = res.data.data || [];
-          this.downFileData.forEach(item=>{
-            item['name'] = item.modelFile.split('/').pop().toLowerCase();
-          })
+          // this.downFileData.forEach(item=>{
+          //   item['name'] = item.modelFile.split('/').pop().toLowerCase();
+          // })
           console.log(this.downFileData)
-          this.dialogVisible = true;
+          if(this.downFileData&&this.downFileData.length>=1){
+            this.dialogVisible = true;
+          }else{
+            this.$message.warning('暂无模板下载');
+          }
+          
         }
         
       })
@@ -205,6 +210,7 @@ export default {
         text-overflow:ellipsis;
         a{
           text-decoration: underline;
+          color:#409EFF;
         }
         a:hover{
           color:red;

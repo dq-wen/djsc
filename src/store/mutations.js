@@ -14,5 +14,9 @@ export default {
 
   [types.SET_FIRSTOPTION]:(state,firstOption)=>{
     state.firstOption = firstOption
-  }
+  },
+
+  [types.SET_TITLENAME]:(state,titleName)=>{
+    state.titleName = titleName
+  },
 }

@@ -15,12 +15,14 @@ export default {
     key() {
       console.log(this.$route.meta.id)
       this.SET_ROUTERID(this.$route.meta.id);
+      this.SET_TITLENAME(this.$route.meta.title);
       return this.$route.path
     }
   },
   methods: {
     ...mapMutations([
-      "SET_ROUTERID"
+      "SET_ROUTERID",
+      "SET_TITLENAME",
     ]),
   },
 }

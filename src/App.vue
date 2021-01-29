@@ -11,6 +11,13 @@ export default {
   mounted() {
     utils.initRouter(this);
   },
+  watch:{ 
+    $route: {
+      handler(to, from) {
+        utils.initRouter(this);
+      }
+    }
+  }
 }
 </script>
 <style>

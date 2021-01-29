@@ -2,6 +2,7 @@ export default {
   user: 'admin',
 
   routerId:'',
-  firstOption:''
+  firstOption:'',
+  titleName:'',//主题名称
   
 }

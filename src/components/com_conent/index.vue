@@ -3,7 +3,8 @@
     <uploadefilelist 
       :optionlist="options" 
       :tableData="filelist"
-      @getDownFile="getDownFile" 
+      @getDownFile="getDownFile"
+      @downFileBtn="downFileBtn" 
       @changefileList="changefileList">
     </uploadefilelist>
     <el-dialog

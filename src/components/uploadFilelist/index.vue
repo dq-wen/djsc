@@ -67,6 +67,21 @@
               prop="createTime"
               label="上传时间">
             </el-table-column>
+            <el-table-column label="操作" align="center" width="100">
+            <template slot-scope="scope">
+              <el-button
+                size="mini"
+                @click="handleDown(scope.$index, scope.row)">
+                  下载<i class="el-icon-download"></i>
+                </el-button>
+                <el-button
+                  size="mini"
+                  style="margin:10px 0 0"
+                  @click="handleDel(scope.$index, scope.row)">
+                  删除<i class="el-icon-delete"></i>
+                </el-button>
+            </template>
+          </el-table-column>
           </el-table>
       </div>
     </div>
@@ -170,19 +185,58 @@ export default {
         type: 'warning',
         center: true
       }).then(() => {
+        
+        this.deleteFiles(delFiles);
+        // deleteFile(delFiles).then(res=>{
+        //   if(res.data.code==200){
+        //     this.$message({
+        //       type: 'success',
+        //       message: '删除成功!'
+        //     });
+        //     this.$refs.upload.clearFiles();
+        //     this.uploadlists = [];
+        //     this.$emit('changefileList');
+        //   }
+        // })
 
-        deleteFile(delFiles).then(res=>{
-          if(res.data.code==200){
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
-            });
-            this.$refs.upload.clearFiles();
-            this.uploadlists = [];
-            this.$emit('changefileList');
-          }
-        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
 
+    //删除文件
+    deleteFiles(files){
+      deleteFile(files).then(res=>{
+        if(res.data.code==200){
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+          this.$refs.upload.clearFiles();
+          this.uploadlists = [];
+          this.$emit('changefileList');
+        }
+      })
+    },
+
+    //下载文件
+    handleDown(idx,row){
+      console.log(idx,row)
+      this.$emit('downFileBtn',row.filePath);
+    },
+
+    //删除单个文件
+    handleDel(idx,row){
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        center: true
+      }).then(() => {
+          this.deleteFiles([row.filePath]);
       }).catch(() => {
         this.$message({
           type: 'info',

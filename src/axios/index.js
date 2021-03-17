@@ -15,8 +15,7 @@ axios.interceptors.response.use(
       temp.data = response.data
       temp.filename = response.headers['content-disposition']
       return temp
-    }
-
+    } 
     return response;
   },
   error=>{

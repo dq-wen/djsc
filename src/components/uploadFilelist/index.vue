@@ -14,6 +14,16 @@
         </el-select>
         <el-button type="info" @click="getDownFile(moduleId)">模板下载</el-button>
       </div>
+
+      <el-form class="formBox" ref="form" :model="form" label-width="80px">
+        <el-form-item label="更新频率">
+          <el-select v-model="form.updateFrequency" placeholder="请选择更新时间">
+            <el-option v-for="(item,idx) in updateTimes" :key="idx" :label='item' :value='item'></el-option>
+            <!-- <el-option :label='item' :value='item'></el-option> -->
+          </el-select>
+        </el-form-item>
+      </el-form>
+
         <!-- accept=".doc,.docx,.xls,.xlsx,.pdf,.jpg,.jpeg,.png,.scv,.csv" -->
       <div class="botton">
         <el-upload
@@ -22,8 +32,9 @@
           :action="api+'/ftp/upload-file'"
           :on-preview="handlePreview"
           :on-success="uploadeSuccess"
+          :on-error="uploadError"
           :show-file-list="false"
-          :data="{'moduleId':moduleId}"
+          :data="{'moduleId':moduleId,'updateFrequency':form.updateFrequency}"
           :headers="{'X-Token':accessToken}"
           multiple>
           <el-button class="uploadBtn" size="small" type="primary">点击上传</el-button>
@@ -52,6 +63,12 @@
               width="45">
             </el-table-column>
             <el-table-column
+              type="index"
+              align="center"
+              label="序号"
+              width="45">
+            </el-table-column>
+            <el-table-column
               prop="moduleName"
               label="所属模块">
             </el-table-column>
@@ -67,6 +84,17 @@
               prop="createTime"
               label="上传时间">
             </el-table-column>
+            <el-table-column
+              prop="fillStatus"
+              width="100"
+              label="状态">
+              <template slot-scope="scope">
+                <span>
+                  {{scope.row.fillStatus==0?'未填报':scope.row.fillStatus==1?'已填报':''}}
+                </span>
+              </template>
+            </el-table-column>
+            
             <el-table-column label="操作" align="center" width="100">
             <template slot-scope="scope">
               <el-button
@@ -100,6 +128,11 @@ export default {
         uploadlists:{},
         api:process.env.VUE_APP_BASE_API,
         getSelectionFile:[],
+
+        form:{
+          updateFrequency:'每日',
+        },
+        updateTimes:['每日','每月','每年','每季'],
     }
   },
   props:{
@@ -158,6 +191,13 @@ export default {
         this.$message.warning(res.msg);
         this.$refs.upload.clearFiles()
       }
+    },
+
+    //上传失败
+    uploadError(err, file, fileList){
+      let result = JSON.parse(err.message);
+      this.$message.warning(result.msg);
+      this.$refs.upload.clearFiles()
     },
 
     //选中的文件
@@ -254,6 +294,7 @@ export default {
   height: 100%;
   margin: 0 auto 10px;
   .uploadefile{
+    position: relative;
     margin-top:50px;
     width: 100%;
     height: 300px;
@@ -267,6 +308,11 @@ export default {
       .title{
         margin-right: 20px;
       }
+    }
+    .formBox{
+      position: absolute;
+      left: 115px;
+      top: 84px;
     }
     .botton{
       width: 33%;

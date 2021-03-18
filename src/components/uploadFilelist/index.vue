@@ -15,14 +15,15 @@
         <el-button type="info" @click="getDownFile(moduleId)">模板下载</el-button>
       </div>
 
-      <el-form class="formBox" ref="form" :model="form" label-width="80px">
-        <el-form-item label="更新频率">
+      <div class="formBox">
+        <span class="title">更新频率</span>
+        <!-- <el-form-item label="更新频率"> -->
           <el-select v-model="form.updateFrequency" placeholder="请选择更新时间">
             <el-option v-for="(item,idx) in updateTimes" :key="idx" :label='item' :value='item'></el-option>
             <!-- <el-option :label='item' :value='item'></el-option> -->
           </el-select>
-        </el-form-item>
-      </el-form>
+        <!-- </el-form-item> -->
+      </div>
 
         <!-- accept=".doc,.docx,.xls,.xlsx,.pdf,.jpg,.jpeg,.png,.scv,.csv" -->
       <div class="botton">
@@ -311,8 +312,12 @@ export default {
     }
     .formBox{
       position: absolute;
-      left: 115px;
+      left: 305px;
       top: 84px;
+      z-index: 1;
+      .title{
+        margin-right: 20px;
+      }
     }
     .botton{
       width: 33%;
@@ -327,7 +332,7 @@ export default {
       }
       .uploadBtn{
         position: absolute;
-        left: 33%;
+        left: 80%;
         top: 10%;
         // transform: translate(-35%,-50%);
       }

@@ -18,12 +18,14 @@
       <div class="formBox">
         <span class="title">更新频率</span>
         <!-- <el-form-item label="更新频率"> -->
-          <el-select v-model="form.updateFrequency" placeholder="请选择更新时间">
+          <el-select v-model="form.updateFrequency" clearable placeholder="请选择更新时间">
             <el-option v-for="(item,idx) in updateTimes" :key="idx" :label='item' :value='item'></el-option>
             <!-- <el-option :label='item' :value='item'></el-option> -->
           </el-select>
         <!-- </el-form-item> -->
       </div>
+
+       <el-button type="primary" size="small" class="updateBtn" @click="updateStatus">更新填报状态</el-button>
 
         <!-- accept=".doc,.docx,.xls,.xlsx,.pdf,.jpg,.jpeg,.png,.scv,.csv" -->
       <div class="botton">
@@ -95,7 +97,11 @@
                 </span>
               </template>
             </el-table-column>
-            
+            <el-table-column
+              align="center"
+              prop="updateFrequency"
+              label="更新频率" >
+            </el-table-column>
             <el-table-column label="操作" align="center" width="100">
             <template slot-scope="scope">
               <el-button
@@ -120,7 +126,7 @@
 <script>
 import { mapMutations } from 'vuex'
 import { bus } from '../Bus/bus.js'
-import { deleteFile} from './api'
+import { deleteFile,updateStatus} from './api'
 export default {
   data() {
     return{
@@ -166,6 +172,30 @@ export default {
       'USER_INFO',
       'SET_FIRSTOPTION'
     ]),
+
+    //更新填报状态
+    updateStatus(){
+        this.$confirm('是否要更新全表填报信息，系统将会在每天0点自动更新，点击确定将会立即更新一次?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        }).then(() => {
+          updateStatus().then(res=>{
+            if(res.data.code==200){
+              this.$message({
+                type: 'success',
+                message: '更新成功!'
+              });
+            }
+          })
+        }).catch(() => {
+          // this.$message({
+          //   type: 'info',
+          //   message: '已取消'
+          // });
+        });
+    },
 
     getDownFile(moduleId){
       this.$emit('getDownFile',moduleId)
@@ -351,6 +381,12 @@ export default {
       }
       
     }
+
+    .updateBtn{
+      position: absolute;
+      right: 202px;
+      top: 90px;
+    }
   }
   .filelist{
     width: 100%;
@@ -372,6 +408,8 @@ export default {
       top:10px;
     }
   }
+
+  
   
 }
 </style>

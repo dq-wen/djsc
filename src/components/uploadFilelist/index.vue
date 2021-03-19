@@ -137,9 +137,9 @@ export default {
         getSelectionFile:[],
 
         form:{
-          updateFrequency:'每日',
+          updateFrequency:'每天',
         },
-        updateTimes:['每日','每月','每年','每季'],
+        updateTimes:['每天','每月','每年','每季'],
     }
   },
   props:{

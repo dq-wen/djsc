@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters,mapState, mapMutations } from 'vuex'
 import Logo from './Logo'
 import SidebarItem from './SidebarItem'
 import variables from '@/styles/variables.scss'
@@ -40,6 +40,7 @@ export default {
       if (meta.activeMenu) {
         return meta.activeMenu
       }
+      this.SET_MODULEID(route.meta.moduleId)
       return path
     },
     showLogo() {
@@ -52,6 +53,9 @@ export default {
       return !this.sidebar.opened
       // return false
     }
+  },
+  methods:{
+    ...mapMutations(['SET_MODULEID']),
   }
 }
 </script>

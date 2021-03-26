@@ -13,7 +13,7 @@ export default {
   computed: {
 
     key() {
-      console.log(this.$route.meta.id)
+      // console.log(this.$route.meta.id)
       this.SET_ROUTERID(this.$route.meta.id);
       this.SET_TITLENAME(this.$route.meta.title);
       return this.$route.path

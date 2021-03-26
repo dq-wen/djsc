@@ -42,10 +42,12 @@ utils.initMenuData = function(vm,getRouterJs){
     item.component = addRouterView(item.iconPathTwo);
     item.path = item.iconPathOne;
     item.name = item.iconPathOne;
-    item.meta = {};
-    item.meta.id = item.userId;
-    item.meta.title = item.plateName;
-    item.meta.icon = item.iconName;
+    item.meta = {
+      id:item.userId,
+      title:item.plateName,
+      icon:item.iconName,
+      ...item
+    };
     item.hidden = false
     return {
       path:'/',

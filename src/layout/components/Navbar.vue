@@ -101,6 +101,10 @@ export default {
     float: right;
     height: 100%;
     line-height: 50px;
+    
+    /deep/ .el-dropdown{
+      display: block;
+    }
 
     &:focus {
       outline: none;
@@ -113,7 +117,6 @@ export default {
       font-size: 18px;
       color: #5a5e66;
       vertical-align: text-bottom;
-
       &.hover-effect {
         cursor: pointer;
         transition: background .3s;

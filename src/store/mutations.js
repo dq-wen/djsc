@@ -19,4 +19,12 @@ export default {
   [types.SET_TITLENAME]:(state,titleName)=>{
     state.titleName = titleName
   },
+
+  [types.SET_MODULEID]:(state,moduleId)=>{
+    state.moduleId = moduleId
+  },
+
+  [types.SET_WAITTHING]:(state,waitThing)=>{
+    state.waitThing = waitThing
+  },
 }

@@ -19,7 +19,7 @@ axios.interceptors.response.use(
     return response;
   },
   error=>{
-    console.log(error.response.data)
+    console.log('错误提示',error.response.data)
     const errData = error.response.data;
     switch(errData.code){
       case 401:
@@ -39,7 +39,7 @@ axios.interceptors.response.use(
           });
         break
       default: 
-        
+      return errData;
     }
     
   }

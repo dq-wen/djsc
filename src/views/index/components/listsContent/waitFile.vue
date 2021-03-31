@@ -13,10 +13,11 @@
           <uploadFileBtn 
             :action="api+'/ftp/upload-file'"
             :headers="{'X-Token':accessToken}"
-            :data="{'moduleId':moduleId}"
+            :data="{'moduleId':moduleId,'modelId':item.modelId}"
             :btnName="'上传模板'"
             @changefileList="changefileList"
             :status="0"
+            :fileName="item.chiName"
             v-else
           />
           <p @click="downFileBtn(item.modelFile)">下载模板</p>

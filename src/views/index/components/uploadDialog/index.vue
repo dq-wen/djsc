@@ -4,28 +4,34 @@
     <el-dialog
       width="30%"
       :visible.sync="uploadDialogVisible"
+      :show-close="false"
+      :close-on-click-modal='false'
       center>
       <ul class="uploadDialogContent">
         <li v-for="(item,idx) in lists" :key="idx">
           <img src="../../images/u157.png"/>
           <p class="title">{{item.chiName}}</p>
-          <div class="downText" v-if="item.fillStatus==1" @click="saveDownFileBtn()">下载模板</div>
+          <div class="downText" v-if="item.fillStatus==1" @click="saveDownFileBtn(item.modelId)">下载模板</div>
           <div class="downText" v-else @click="downFileBtn(item.modelFile)">下载模板</div>
           <div class="saveText s_active" v-if="item.fillStatus==1">已保存</div>
           <div class="saveText" v-else>
            <uploadFileBtn 
             :action="api+'/ftp/upload-file'"
             :headers="{'X-Token':accessToken}"
-            :data="{'moduleId':moduleId}"
+            :data="{'moduleId':moduleId,'modelId':item.modelId}"
             :btnName="'保存模板'"
+            :status="0"
+            :fileName="item.chiName"
             @changefileList="changefileList"
           />
+            <!-- <p class="saveTemplate">保存模板</p>
+            <input class="uploadFile" type="file" @change="uploadFile($event,item.chiName)"/> -->
           </div>
         </li>
       </ul>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="uploadDialogVisible=false">取 消</el-button>
-        <el-button type="primary" @click="submit" :disabled="btnDisable>=0?true:false">提交</el-button>
+        <!-- <el-button @click="uploadDialogVisible=false">取 消</el-button> -->
+        <el-button type="primary" @click="submit" :disabled="btnDisable>=0?true:false">完成</el-button>
       </span>
     </el-dialog>
   </div>
@@ -34,6 +40,7 @@
 import { mapState, mapMutations } from 'vuex'
 import uploadFileBtn from '@/components/uploadFileBtn'
 import {fileListRelation,getFtpFileInfo} from '../../api'
+import axios from '@/axios'
 export default {
   name:'uploadDialog',
   components:{uploadFileBtn},
@@ -61,17 +68,43 @@ export default {
       api:process.env.VUE_APP_BASE_API,
       fillRelation:'',//用于刷新弹窗内容
       btnDisable:'',
+
+      formData:'',
     }
   },
   methods:{
+    uploadFile(e,name){
+      let file = e.target.files[0];
+
+      let idx = file.name.lastIndexOf(".")//获取最后一个.的位置
+      let getFileName = file.name.slice(0,idx); //获取文件名称
+      if(name.trim() != getFileName.trim()){//清空前后空格
+        this.$message.warning('上传文件名称不对');
+        return false
+      }
+      let formData = new FormData();
+      formData.append('file',file)
+      formData.append('moduleId',this.moduleId)
+      
+      // this.formData = formData;
+      // axios({
+      //   method: "post",
+      //   url: this.api + '/ftp/upload-file',
+      //   data:this.formData,
+      //   headers:`{X-Token:${this.accessToken},'Content-Type': 'multipart/form-data'}`
+      // }).then(rs => {
+      //   console.log(rs)
+      // })
+      // console.log(formData)
+    },
     //未保存下载模板
     downFileBtn(path){
       this.$emit('downFileBtn',path);
     },
 
     //已保存下载模板
-    saveDownFileBtn(){
-      getFtpFileInfo({moduleId:this.moduleId,userId:this.userId}).then(res=>{
+    saveDownFileBtn(modelId){
+      getFtpFileInfo({modelId:modelId,moduleId:this.moduleId,userId:this.userId}).then(res=>{
         if(res.data.code==200){
           let data = res.data.data;
            this.$emit('downFileBtn',data.filePath);
@@ -144,9 +177,29 @@ export default {
             color:blue;
           }
         }
+        margin-top:0.1rem;
+        position: relative;
+        .uploadFile{
+          width: 0.8rem;
+          opacity: 0;
+          z-index: 100;
+          padding:0 0.2rem;
+        }
+        .uploadFile:hover{
+          cursor: pointer;
+        }
+        .saveTemplate{
+          color:blue;
+          position: absolute;
+          padding-top:0.03rem;
+          top: 0;
+          left:0.15rem;
+        }
+        .saveTemplate:hover{
+          cursor: pointer;
+        }
       }
       .s_active{
-        margin-top:0.1rem;
         color:#999;
       }
     }

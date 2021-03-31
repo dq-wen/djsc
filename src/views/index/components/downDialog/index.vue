@@ -8,15 +8,16 @@
       <ul class="uploadDialogContent">
         <li>
           <img src="../../images/u157.png"/>
-          <p class="title">{{itemList.fileName}}</p>
-          <div class="downText" @click="downFileBtn(itemList.modelFile)">下载文件</div>
+          <p class="title">{{itemList.chiName}}</p>
+          <div class="downText" @click="downFileBtn(itemList.modelId)">下载文件</div>
           <!-- <div class="saveText">上传文件</div> -->
           <uploadFileBtn 
             :action="api+'/ftp/upload-file'"
             :headers="{'X-Token':accessToken}"
-            :data="{'moduleId':moduleId}"
+            :data="{'moduleId':moduleId,'modelId':itemList.modelId}"
             :btnName="'上传文件'"
             @changefileList="changefileList"
+            :fileName="itemList.chiName"
             class="uploadFileClass"
           />
         </li>
@@ -54,6 +55,7 @@ export default {
   methods:{
     //显示弹窗
     showDialogVisible(bool,val){
+      console.log(val)
       this.uploadDialogVisible = bool;
       this.itemList = val;
     },
@@ -65,8 +67,8 @@ export default {
     },
 
     //下载文件
-    downFileBtn(){
-     this.$emit('downFileBtn')
+    downFileBtn(modelId){
+     this.$emit('downFileBtn',modelId)
     },
 
   }

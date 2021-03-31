@@ -52,10 +52,16 @@ export default {
         return '上传'
       }
     },
-    status:{
+    status:{//判断是否未填报上传还是已填好上传
       type:Number | String,
       default(){
         return 1
+      }
+    },
+    fileName:{ //文件名称
+      type:String,
+      default(){
+        return ''
       }
     }
   },
@@ -68,6 +74,12 @@ export default {
 
     //上传文件前
     beforeUpload(file){
+      let idx = file.name.lastIndexOf(".")//获取最后一个.的位置
+      let getFileName = file.name.slice(0,idx); //获取文件名称
+      if(getFileName.trim()!=this.fileName.trim()){
+        this.$message.warning('上传文件名称不对');
+        return false
+      }
       if(this.status==1){
          return new Promise((resolve,reject)=>{
           this.$confirm('此操作将覆盖该文件, 是否继续?', '提示', {

@@ -5,6 +5,7 @@ let apis = {
   fileListRelation:'/ftp/file-list-relation',//是否关联其他表
 
   getFtpFileInfo:'/ftp/getFtpFileInfo',//下载内容
+
 }
 export const fileListPage= (params) => {
   return axios.get(`${process.env.VUE_APP_BASE_API}${apis.fileListPage}`, {params})

@@ -5,11 +5,11 @@
         <img src="../../images/u157.png"/>
         <div class="itemCenter">
           <p class="item-c-top">{{item.chiName}}</p>
-          <p class="item-c-foot">填写时间：{{item.createTime}}</p>
+          <p class="item-c-foot">填写时间：{{item.updateTime}}</p>
         </div>
         <div class="itemRight">
           <p @click="editValue(item)">修改内容</p>
-          <p @click="downFileBtn(item.modelFile)">查看内容</p>
+          <p @click="downFileBtn(item.modelId)">查看内容</p>
         </div>
       </li>
       <!-- <li>
@@ -57,9 +57,9 @@ export default {
       this.$refs.downDialog.showDialogVisible(true,val);
     },
 
-       //下载文件
-    downFileBtn(){
-      getFtpFileInfo({moduleId:this.moduleId,userId:this.userId}).then(res=>{
+    //下载文件
+    downFileBtn(modelId){
+      getFtpFileInfo({modelId:modelId,userId:this.userId,moduleId:this.moduleId}).then(res=>{
         if(res.data.code==200){
           let data = res.data.data;
           downloadFile({filePath:data.filePath}).then(res=>{
@@ -67,7 +67,6 @@ export default {
           })
         }
       })
-      
     },
 
     //上传文件成功后的处理

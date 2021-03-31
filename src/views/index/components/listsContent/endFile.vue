@@ -60,7 +60,6 @@ export default {
        //下载文件
     downFileBtn(){
       getFtpFileInfo({moduleId:this.moduleId,userId:this.userId}).then(res=>{
-        console.log('下载文件',res)
         if(res.data.code==200){
           let data = res.data.data;
           downloadFile({filePath:data.filePath}).then(res=>{

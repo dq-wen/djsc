@@ -16,19 +16,19 @@
             :data="{'moduleId':moduleId}"
             :btnName="'上传模板'"
             @changefileList="changefileList"
+            :status="0"
             v-else
           />
-
           <p @click="downFileBtn(item.modelFile)">下载模板</p>
         </div>
       </li>
   </ul>
-    <uploadDialog  ref="uploadDialog" :title="uploadDialogTitle"/>
+    <uploadDialog  ref="uploadDialog" :title="uploadDialogTitle" @downFileBtn="downFileBtn" @changefileList="changefileList"/>
   </div>
   
 </template>
 <script>
-import {downloadFile,fileListRelation} from '../../api'
+import {downloadFile} from '../../api'
 import { mapState, mapMutations } from 'vuex'
 import common from '@/utils/common'
 import uploadDialog from '../uploadDialog'
@@ -61,9 +61,9 @@ export default {
     accessToken(){
       return sessionStorage.getItem('djwjsc_token');
     },
-    userId(){
-      return sessionStorage.getItem('dj_userId')
-    },
+    // userId(){
+    //   return sessionStorage.getItem('dj_userId')
+    // },
   },
   methods:{
     //下载模板
@@ -79,11 +79,7 @@ export default {
 
     //上传模板弹窗
     upload2(fillRelation){
-      fileListRelation({fillRelation:fillRelation,userId:this.userId}).then(res=>{
-        console.log('关联多张表格数据',res)
-        // this.$refs.uploadDialog.showDialogVisible(true);
-      })
-      
+      this.$refs.uploadDialog.showDialogVisible(fillRelation)
     },
   }
 }

@@ -51,6 +51,12 @@ export default {
       default(){
         return '上传'
       }
+    },
+    status:{
+      type:Number | String,
+      default(){
+        return 1
+      }
     }
   },
   mounted(){
@@ -62,18 +68,21 @@ export default {
 
     //上传文件前
     beforeUpload(file){
-      return new Promise((resolve,reject)=>{
-        this.$confirm('此操作将覆盖该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning',
-          center: true
-        }).then(() => {
-          resolve(true)
-        }).catch(() => {
-          reject(false)
-        });
-      })
+      if(this.status==1){
+         return new Promise((resolve,reject)=>{
+          this.$confirm('此操作将覆盖该文件, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+            center: true
+          }).then(() => {
+            resolve(true)
+          }).catch(() => {
+            reject(false)
+          });
+        })
+      }
+     
     },
     
     //上传成功

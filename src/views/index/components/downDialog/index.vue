@@ -61,8 +61,7 @@ export default {
     //上传文件成功后的处理
     changefileList(){
       this.$emit('changefileList');
-
-      // this.uploadDialogVisible = false;
+      this.uploadDialogVisible = false;
     },
 
     //下载文件

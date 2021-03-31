@@ -11,14 +11,14 @@
         <li v-for="(item,idx) in lists" :key="idx">
           <img src="../../images/u157.png"/>
           <p class="title">{{item.chiName}}</p>
-          <div class="downText" v-if="item.fillStatus==1" @click="saveDownFileBtn(item.modelId)">下载模板</div>
+          <div class="downText" v-if="item.fillStatus==1" @click="saveDownFileBtn(item.modelId,item.moduleId)">下载模板</div>
           <div class="downText" v-else @click="downFileBtn(item.modelFile)">下载模板</div>
           <div class="saveText s_active" v-if="item.fillStatus==1">已保存</div>
           <div class="saveText" v-else>
            <uploadFileBtn 
             :action="api+'/ftp/upload-file'"
             :headers="{'X-Token':accessToken}"
-            :data="{'moduleId':moduleId,'modelId':item.modelId}"
+            :data="{'moduleId':item.moduleId,'modelId':item.modelId}"
             :btnName="'保存模板'"
             :status="0"
             :fileName="item.chiName"
@@ -103,8 +103,8 @@ export default {
     },
 
     //已保存下载模板
-    saveDownFileBtn(modelId){
-      getFtpFileInfo({modelId:modelId,moduleId:this.moduleId,userId:this.userId}).then(res=>{
+    saveDownFileBtn(modelId,moduleId){
+      getFtpFileInfo({modelId:modelId,moduleId:moduleId,userId:this.userId}).then(res=>{
         if(res.data.code==200){
           let data = res.data.data;
            this.$emit('downFileBtn',data.filePath);

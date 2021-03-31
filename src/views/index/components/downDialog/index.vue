@@ -9,12 +9,12 @@
         <li>
           <img src="../../images/u157.png"/>
           <p class="title">{{itemList.chiName}}</p>
-          <div class="downText" @click="downFileBtn(itemList.modelId)">下载文件</div>
+          <div class="downText" @click="downFileBtn(itemList.modelId,itemList.moduleId)">下载文件</div>
           <!-- <div class="saveText">上传文件</div> -->
           <uploadFileBtn 
             :action="api+'/ftp/upload-file'"
             :headers="{'X-Token':accessToken}"
-            :data="{'moduleId':moduleId,'modelId':itemList.modelId}"
+            :data="{'moduleId':itemList.moduleId,'modelId':itemList.modelId}"
             :btnName="'上传文件'"
             @changefileList="changefileList"
             :fileName="itemList.chiName"
@@ -67,8 +67,8 @@ export default {
     },
 
     //下载文件
-    downFileBtn(modelId){
-     this.$emit('downFileBtn',modelId)
+    downFileBtn(modelId,moduleId){
+     this.$emit('downFileBtn',modelId,moduleId)
     },
 
   }

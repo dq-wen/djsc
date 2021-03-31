@@ -13,7 +13,7 @@
           <uploadFileBtn 
             :action="api+'/ftp/upload-file'"
             :headers="{'X-Token':accessToken}"
-            :data="{'moduleId':moduleId,'modelId':item.modelId}"
+            :data="{'moduleId':item.moduleId,'modelId':item.modelId}"
             :btnName="'上传模板'"
             @changefileList="changefileList"
             :status="0"

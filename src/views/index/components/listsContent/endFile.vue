@@ -9,7 +9,7 @@
         </div>
         <div class="itemRight">
           <p @click="editValue(item)">修改内容</p>
-          <p @click="downFileBtn(item.modelId)">查看内容</p>
+          <p @click="downFileBtn(item.modelId,item.moduleId)">查看内容</p>
         </div>
       </li>
       <!-- <li>
@@ -58,8 +58,8 @@ export default {
     },
 
     //下载文件
-    downFileBtn(modelId){
-      getFtpFileInfo({modelId:modelId,userId:this.userId,moduleId:this.moduleId}).then(res=>{
+    downFileBtn(modelId,moduleId){
+      getFtpFileInfo({modelId:modelId,userId:this.userId,moduleId:moduleId}).then(res=>{
         if(res.data.code==200){
           let data = res.data.data;
           downloadFile({filePath:data.filePath}).then(res=>{

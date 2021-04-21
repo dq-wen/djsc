@@ -24,7 +24,7 @@ export default {
 <style lang="scss" scoped>
   .index{
     // height:calc(100% - 0.05rem);
-    height: 100%;
+    min-height: 100%;
     // padding-top:0.5rem;
     border-top: 1px solid #ccc;
     background: #ccc;

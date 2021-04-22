@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '文件上传系统',
+  title: '在线填报平台',
 
   /**
    * @type {boolean} true | false

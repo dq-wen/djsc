@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      title: '文件上传系统',
+      title: '在线填报平台',
       // logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
     }
   }

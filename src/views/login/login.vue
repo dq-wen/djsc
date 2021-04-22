@@ -3,7 +3,9 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <div class="logo"></div>
+        <h3 class="title">“穗智管” 在线填报平台</h3>
+        <div class="buttom_bg"></div>
       </div>
 
       <el-form-item prop="username">
@@ -41,7 +43,7 @@
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-button :loading="loading" type="primary" class="btn" @click.native.prevent="handleLogin">确认</el-button>
 
     </el-form>
   </div>
@@ -164,7 +166,7 @@ $cursor: #fff;
 .login-container {
   .el-input {
     display: inline-block;
-    height: 47px;
+    height: 0.47rem;
     width: 85%;
 
     input {
@@ -172,23 +174,40 @@ $cursor: #fff;
       border: 0px;
       -webkit-appearance: none;
       border-radius: 0px;
-      padding: 12px 5px 12px 15px;
+      padding: 0.12rem 0.05rem 0.12rem 0.15rem;
       color: $light_gray;
-      height: 47px;
+      height: 0.47rem;
       caret-color: $cursor;
 
-      &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
+      font-size: 0.18rem;
+      font-weight: bold;
+      // &:-webkit-autofill {
+      //   box-shadow: 0 0 0px 10rem #2F4767 inset !important;
+      //   -webkit-text-fill-color: $cursor !important;
+      // }
+
+      //延长增加自动填充背景色的方式, 是用户感受不到样式的变化
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus,
+      &:-webkit-autofill:active {
+          -webkit-transition-delay: 99999s;
+          -webkit-transition: color 99999s ease-out, background-color 99999s ease-out;
       }
     }
+
+    
+   
   }
 
   .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
+    background: #2F4767;
     border-radius: 5px;
     color: #454545;
+
+    margin: 0 auto 0.22rem!important;
+    width:40%;
   }
 }
 </style>
@@ -201,55 +220,80 @@ $light_gray:#eee;
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
+  // background-color: $bg;
   overflow: hidden;
-
+  background:url('./images/bg_login.png') no-repeat;
+  background-size: 100% 100%;
   .login-form {
-    position: relative;
-    width: 520px;
+    // position: relative;
+    width: 10rem;
     max-width: 100%;
-    padding: 160px 35px 0;
-    margin: 0 auto;
+    // padding: 1.6rem 0.35rem 0;
+    // margin: 0 auto;
     overflow: hidden;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -60%);
+    .btn{
+      width: 40%;
+      font-size: 0.18rem;
+      font-weight: bold;
+    }
+
   }
 
   .tips {
-    font-size: 14px;
+    font-size: 0.14rem;
     color: #fff;
-    margin-bottom: 10px;
+    margin-bottom: 0.1rem;
 
     span {
       &:first-of-type {
-        margin-right: 16px;
+        margin-right: 0.16rem;
       }
     }
   }
 
   .svg-container {
-    padding: 6px 5px 6px 15px;
+    padding:0.06rem 0.05rem 0.06rem 0.15rem;
     color: $dark_gray;
     vertical-align: middle;
-    width: 30px;
+    width: 0.3rem;
     display: inline-block;
   }
 
   .title-container {
     position: relative;
-
+    .logo{
+      width:1rem;
+      height:1.5rem;
+      background:url('./images/logo.png') no-repeat center center;
+      background-size: 100% 100%;
+      margin: 0 auto 0.2rem;
+    }
     .title {
-      font-size: 26px;
+      font-size: 0.5rem;
       color: $light_gray;
-      margin: 0px auto 40px auto;
+      // margin: 0px auto;
       text-align: center;
       font-weight: bold;
+    }
+    .buttom_bg{
+      margin: 0.3rem auto;
+      height:0.05rem;
+      width: 60%;
+      background:linear-gradient(to left, #253A54, #4E9DFB, #253A54);
+      // border-bottom: 10px solid #ccc;
     }
   }
 
   .show-pwd {
     position: absolute;
-    right: 10px;
-    top: 7px;
-    font-size: 16px;
+    right: 0.1rem;
+    top: 0.07rem;
+    font-size: 0.16rem;
     color: $dark_gray;
     cursor: pointer;
     user-select: none;

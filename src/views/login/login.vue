@@ -170,7 +170,7 @@ $cursor: #fff;
     width: 85%;
 
     input {
-      background: transparent;
+      background:#2F4767;
       border: 0px;
       -webkit-appearance: none;
       border-radius: 0px;

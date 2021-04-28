@@ -1,7 +1,7 @@
 <template>
   <ul class="indexTop">
     <li>
-      <img src="../../images/icon.png"/>
+      <img src="../../../login/images/logo.png"/>
     </li>
     <li>
       <p>{{userName}}，祝你开心每一天!</p>
@@ -42,10 +42,13 @@ export default {
   li:first-of-type{
     width: 10%;
     align-items: center;
+    
     img{
       width: 100px;
       height: 100px;
       border-radius: 50%;
+      background-color:#386FA1;
+      padding-left:0.1rem;
     }
   }
   li:nth-of-type(2){
